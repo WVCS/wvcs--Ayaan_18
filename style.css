@@ -1,3 +1,6 @@
+body {
+
+
 h4 {
   color: MidnightBlue; 
  text-allign: center;  
@@ -13,4 +16,5 @@ body {
 .Joel {
   position: center; 
   border: groove Crimson 3px; 
+}
 }
