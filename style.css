@@ -1,3 +1,16 @@
-body {
+h4 {
+  color: MidnightBlue; 
+ text-allign: center;  
+  font-size: 100px; 
+  letter-spacing: 0px; 
+  
+}
 
+body {
+  background-color: LightCyan;
+} 
+
+.Joel {
+  position: center; 
+  border: groove Crimson 3px; 
 }
