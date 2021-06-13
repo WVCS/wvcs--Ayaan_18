@@ -3,11 +3,11 @@
    <body>
      
      <h4> Ayaan's Website </h4>
-     <div class="navbar">
-  <a href="https://wvcs.github.io/wvcs--Ayaan_18/">Home</a>
-  <a href="https://wvcs.github.io/wvcs--Ayaan_18/favorites">Favorites</a>
-  <a href="https://wvcs.github.io/wvcs--Ayaan_18/apps" class="right">Apps</a>
-</div>
+   <ul>
+  <li><a href="https://wvcs.github.io/wvcs--Ayaan_18/">Home</a></li>
+  <li><a href="https://wvcs.github.io/wvcs--Ayaan_18/">Favorites</a></li>
+  <li><a href="https://wvcs.github.io/wvcs--Ayaan_18/apps">Apps</a></li>
+</ul>
      <br>
      <h5> My Favorite Stuff </h5>
      <br>
