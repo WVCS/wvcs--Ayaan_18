@@ -1,1 +1,52 @@
+<html>
 
+   <body>
+     
+     <h4> Ayaan's Website </h4>
+     <div class="navbar">
+  <a href="https://wvcs.github.io/wvcs--Ayaan_18/">Home</a>
+  <a href="https://wvcs.github.io/wvcs--Ayaan_18/favorites">Favorites</a>
+  <a href="https://wvcs.github.io/wvcs--Ayaan_18/apps" class="right">Apps</a>
+</div>
+     <br>
+     <h5> My Favorite Stuff </h5>
+     <br>
+     <img class=Cole src = 
+     "https://www.rap-up.com/app/uploads/2021/05/j-cole-slam.jpg"
+     height ="400" width= "600">
+     
+      <img class=Kendrick src = 
+"https://variety.com/wp-content/uploads/2017/11/kendrick-lamar-variety-hitmakers.jpg?w=681&h=383&crop=1">
+     
+      <img class=Sixers src = 
+"https://thesixersense.com/wp-content/uploads/getty-images/2017/07/1303718534.jpeg"
+ height = "400"
+ width = "600"
+           >
+     
+      <img class=Comedy src = 
+"https://static01.nyt.com/images/2017/11/26/arts/26comedycrash-illo/26comedycrash-illo-superJumbo.gif"
+height = "400" 
+width ="500"
+           >
+     
+     <img class=Youtube src = 
+"https://yt3.ggpht.com/ytc/AAUvwnjDwLJeWs_jcgoVvQpC7YZxWMwP-N__UH-98dxGyw=s900-c-k-c0x00ffffff-no-rj"
+  height ="100"
+  width ="100"
+          >
+     
+       <img class=Doom src = 
+"https://trenchtrenchtrench.com/assets/articles/mf-doom-the-greatest-villain-in-rap/MF-DOOM-2.png"
+ height = "200"
+ width = "350"
+            >
+     
+     <img class=Star_Wars src = 
+"https://upload.wikimedia.org/wikipedia/commons/6/6c/Star_Wars_Logo.svg"
+     height= "200"
+     width ="400"
+          >
+          
+          </body>
+</html>
