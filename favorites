@@ -3,10 +3,17 @@
    <body>
      
      <h4> Ayaan's Website </h4>
-   <ul>
-  <li><a href="https://wvcs.github.io/wvcs--Ayaan_18/">Home</a></li>
-  <li><a href="https://wvcs.github.io/wvcs--Ayaan_18/favorites">Favorites</a></li>
-  <li><a href="https://wvcs.github.io/wvcs--Ayaan_18/apps">Apps</a></li>
+  
+      <ul>
+  <li>  
+<a class="active" href="https://wvcs.github.io/wvcs--Ayaan_18/index.html">Home</a>
+    </li>
+  <li>
+    <a href="https://wvcs.github.io/wvcs--Ayaan_18/favorites">Favorites</a>
+    </li>
+  <li>
+    <a href="https://wvcs.github.io/wvcs--Ayaan_18/apps">Apps</a>
+    </li>
 </ul>
      <br>
      <h5> My Favorite Stuff </h5>
