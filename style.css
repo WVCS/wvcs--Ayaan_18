@@ -1,20 +1,33 @@
-body {
-
-
 h4 {
-  color: MidnightBlue; 
- text-allign: center;  
-  font-size: 100px; 
-  letter-spacing: 0px; 
-  
+  color: MidnightBlue;
+  background-color: LightCoral;
+  text-align: center;
+  font-size: 100px;
+  letter-spacing: 0px;
 }
 
 body {
   background-color: LightCyan;
-} 
+}
 
 .Joel {
-  position: center; 
-  border: groove Crimson 3px; 
+  position: relative;
+  left: 80px;
+
+  border: groove Crimson 3px;
 }
+
+h5 {
+  color: Violet;
+  text-align: center;
+  font-size: 50px;
+}
+.Cole {
+  position: relative;
+  left: 80px;
+}
+
+.Star_Wars {
+  position: relative;
+  right: 80px;
 }
