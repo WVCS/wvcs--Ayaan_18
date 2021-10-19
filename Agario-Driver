@@ -1,0 +1,88 @@
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Cell {
+
+	private int xPos;
+	private int yPos; 
+	private int w; 
+	private int vX;
+	private int vY; 
+	private Color color; 
+	
+	//randomizing color
+
+	
+	public Cell() {
+		
+		w = 30; 
+		xPos = 400-(w/2);
+		yPos = 300-(w/2); 
+		vX = (int) (Math.random()*7)-3; 
+		vY = (int) (Math.random()*7) - 3; 
+		int red = (int) (Math.random()*256);
+		int green = (int) (Math.random()*256); 
+		int blue = (int) (Math.random()*256);
+		color = new Color(red, green, blue); 
+		
+	}
+	
+	public Cell(int xVal, int yVal) {
+		w = 30; 
+		xPos = xVal; 
+		yPos = yVal; 
+		vX = (int) (Math.random()*7)+3; 
+		vY = (int) (Math.random()*7) + 3; 
+		int red = (int) (Math.random()*256);
+		int green = (int) (Math.random()*256); 
+		int blue = (int) (Math.random()*256);
+		color = new Color(red, green, blue);
+		 
+	}
+	
+	
+	
+
+	public void Paint(Graphics g) {
+		
+		xPos += vX; 
+		yPos += vY; 
+		g.setColor(color);
+		g.fillOval(xPos, yPos, w, w); 
+		
+	}
+	
+	public int getX(){
+		return xPos; 
+	}
+	
+	public void setX(int newX) {
+		xPos = newX; 
+	}
+	
+	public int getyPos() {
+		return yPos;
+	}
+
+	public void setyPos(int yPos) {
+		this.yPos = yPos;
+	}
+
+	public int getvX() {
+		return vX;
+	}
+
+	public void setvX(int vX) {
+		this.vX = vX;
+	}
+
+	public int getvY() {
+		return vY;
+	}
+
+	public void setvY(int vY) {
+		this.vY = vY;
+	}
+	
+	
+}
