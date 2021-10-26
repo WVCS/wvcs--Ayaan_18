@@ -1,88 +1,215 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
-public class Cell {
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
-	private int xPos;
-	private int yPos; 
-	private int w; 
-	private int vX;
-	private int vY; 
-	private Color color; 
+public class Driver extends JPanel implements ActionListener, MouseListener, MouseMotionListener{
 	
-	//randomizing color
-
 	
-	public Cell() {
+	//private Cell cells[] = new Cell[10]; 
+	
+	
+	private ArrayList<Cell> cells2 = new ArrayList<Cell>(); 
+	
+	private Cell player = new Cell(); 
+	
+	
+	
+	
+
+	public void paint(Graphics g) {
+		g.setColor(Color.black);
+		g.fillRect(0, 0, 1000, 1000);
 		
-		w = 30; 
-		xPos = 400-(w/2);
-		yPos = 300-(w/2); 
-		vX = (int) (Math.random()*7)-3; 
-		vY = (int) (Math.random()*7) - 3; 
-		int red = (int) (Math.random()*256);
-		int green = (int) (Math.random()*256); 
-		int blue = (int) (Math.random()*256);
-		color = new Color(red, green, blue); 
+		//System.out.println("paint");
+	
+		for(Cell thisCell : cells2) { //changed thiscell to temp
+			thisCell.Paint(g);
+		}
+		
+		
+		
+		//for(Cell thisCell : cells) {
+			
+		//	thisCell.Paint(g);
+			
+		//}
+		
+		for(int i = 0; i < cells2.size()-1; i++) {
+			for(int j = i + 1; j < cells2.size(); j++) {
+				
+				//CHANGE Collide TO collide
+				cells2.get(i).collide(cells2.get(j));
+				
+			}
+		}
+		
+		player.Paint(g);
+	}
+	
+	
+	public void rings(int x, int y, int width, Graphics g) {
+		
+		
+		
+	}	
+	
+	public static void main(String[] arg) {
+		
+		//find a way to run the constructor of the Driver class
+		Driver d  = new Driver(); //will this invoke a constructor?
+		
+
+	}	
+	
+	//1) add a Driver constructor
+		public Driver() {
+			JFrame frame = new JFrame("ArrayList stuff");
+			frame.setSize(800,600);
+			frame.add(this);
+			
+			//this part makes sure the x button closes the program
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			
+			//connect mouseListener
+			frame.addMouseListener(this);
+			frame.addMouseMotionListener(this);
+			
+			for(int i = 0; i < 100; i++) {
+				
+			//int x = (int) Math.random()*760+35; //800
+			//int y = (int) Math.random()*560+35; //600
+			
+
+				
+				Cell temp = new Cell((int) Math.random()*760 + 35,(int) Math.random()*560 + 35); 
+				
+				cells2.add(temp); 
+				
+				//Cell temp = new Cell();
+				
+				//temp.setxPos((int) Math.random()*760+35);
+				//temp.setyPos((int) Math.random()*560+35);
+				
+				 
+				
+				//cells2[i] = new Cell(((int) Math.random()*801), ((int) Math.random()*601)); 
+				
+			}
+			
+			//player.setvX(0);
+			//player.setvY(0);
+			
+	
+			
+			
+			t.start();
+			//make the frame show up
+			frame.setVisible(true);
+					
+		}
+	Timer t = new Timer(16, this);
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		repaint();
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+		
+	Cell temp = new Cell(arg0.getX()-30, arg0.getY()-30); 
+	
+		//add it to ArrayList
+		cells2.add(temp); 
+		
 		
 	}
-	
-	public Cell(int xVal, int yVal) {
-		w = 30; 
-		xPos = xVal; 
-		yPos = yVal; 
-		vX = (int) (Math.random()*7)+3; 
-		vY = (int) (Math.random()*7) + 3; 
-		int red = (int) (Math.random()*256);
-		int green = (int) (Math.random()*256); 
-		int blue = (int) (Math.random()*256);
-		color = new Color(red, green, blue);
-		 
-	}
-	
-	
-	
 
-	public void Paint(Graphics g) {
-		
-		xPos += vX; 
-		yPos += vY; 
-		g.setColor(color);
-		g.fillOval(xPos, yPos, w, w); 
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
-	
-	public int getX(){
-		return xPos; 
-	}
-	
-	public void setX(int newX) {
-		xPos = newX; 
-	}
-	
-	public int getyPos() {
-		return yPos;
+
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void setyPos(int yPos) {
-		this.yPos = yPos;
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public int getvX() {
-		return vX;
-	}
 
-	public void setvX(int vX) {
-		this.vX = vX;
-	}
-
-	public int getvY() {
-		return vY;
-	}
-
-	public void setvY(int vY) {
-		this.vY = vY;
-	}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+		
+		
 	
-	
+	}
+
+
+	@Override
+	public void mouseDragged(MouseEvent m) {
+		// TODO Auto-generated method stub
+		
+		//Cell temp = new Cell(m.getX()-30, m.getY()-30);
+		
+		//cells2.add(temp); 
+
+		
+		
+	}
+
+
+	@Override
+	public void mouseMoved(MouseEvent m) {
+		// TODO Auto-generated method stub
+		
+	//Cell temp = new Cell(m.getX()-30, m.getY()-30); 
+		
+		//add it to ArrayList
+	//	cells2.add(temp); 
+		
+		
+		int pX = player.getxPos();
+		int pY = player.getyPos(); 
+		
+		if(m.getX() < player.getxPos()) {
+			player.setvX(-2);
+		}
+		
+		else{
+			player.setvX(2);
+		}
+		
+		if(m.getY() < player.getyPos()) {
+			player.setvY(-2);
+		}
+		else{
+			player.setvY(2);
+		}
+		
+	}
 }
