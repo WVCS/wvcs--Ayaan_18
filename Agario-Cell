@@ -1,0 +1,181 @@
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Cell {
+
+	private int xPos;
+	private int yPos; 
+	private int w; 
+	private int vX;
+	private int vY; 
+	private Color color; 
+	private double area; //helps with width calculation 
+						 // as we consume other cells
+	
+
+	
+	public Cell() {
+		
+		w = (int) (Math.random()*21)+10; 
+		
+		xPos = 400-(w/2);
+		yPos = 300-(w/2); 
+		vX = (int) (Math.random()*7) - 3; 
+	    vY = (int) (Math.random()*7) - 3; 
+		//vX = (int) (1/area)*2; 
+		//vY = (int) (1/area)*2; 
+		int red = (int) (Math.random()*256);
+		int green = (int) (Math.random()*256); 
+		int blue = (int) (Math.random()*256);
+		color = new Color(red, green, blue); 
+		
+		//assign area 
+		
+		area = Math.PI*Math.pow(w/2, 2); 
+	}
+
+	
+	public Cell(int xVal, int yVal) {
+		w = (int) (Math.random()*21)+10;  
+		xPos = xVal; 
+		yPos = yVal; 
+		vX = (int) (Math.random()*7) - 3; 
+		vY = (int) (Math.random()*7) - 3; 
+		//this.vX = (int) (1/area)*2; 
+		//this.vY = (int) (1/area)*2;   
+		area = Math.PI*Math.pow(w/2, 2);
+		
+		//Scale the velocity such that the bigger the object is
+		//the smaller vX and vY are initially 
+		
+		
+		
+		
+		int red = (int) (Math.random()*256);
+		int green = (int) (Math.random()*256); 
+		int blue = (int) (Math.random()*256);
+		color = new Color(red, green, blue);
+		 
+	}
+	
+	
+	
+
+	public void Paint(Graphics g) {
+		
+		
+		xPos += vX; 
+		yPos += vY; 
+		g.setColor(color);
+		g.fillOval(xPos, yPos, w, w); 
+		
+		
+		
+		 if(xPos + w/2 >= 760) {
+				vX *= -1;
+			}
+			
+			if(yPos + w/2 >= 540) {
+			vY *= -1;
+			}
+			
+			if(yPos  <= 1) {
+				vY *= -1;
+			}
+			
+			if(xPos  <= 1) {
+				vX *= -1; 
+			}
+		
+			
+	}
+	
+	public boolean collide(Cell other) {
+		
+		//returns true if 
+		
+		int x1 = this.xPos + w/2;
+		int y1 = this.yPos + w/2; 
+	
+		//other cell center point
+		int x2 = other.xPos + other.w/2;
+		int y2 = other.yPos + other.w/2; 
+		
+		
+		int distance = (int) Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2)); 
+		
+		int r1 = this.w/2; 
+		int r2 = other.w/2; 
+		
+			//figure out which cell is bigger
+			//increment its size somehow 
+		
+	
+		
+		
+		if(r1 + r2 > distance && this.area > other.area) {
+			
+			other.xPos = 1000; 
+			other.yPos = 1000;
+			
+			
+			this.area += other.area; 
+			
+	
+			this.w = (int) Math.sqrt(Math.pow(this.w + other.w, 2));
+			 
+			
+		}
+		
+		//A = (pi*r^2)
+		//A = (pi * (w/2)^2
+		//A = pi * w^2/4
+			//sqrt((A/pi)*4)
+		
+		
+		//w = (int) Math.sqrt((this.area/Math.PI)*4);
+		
+		//calculate width from new cells 
+		//w = (int) Math.sqrt(Math.pow(this.w + other.w, 2));
+		
+		 
+		
+		return(r1 + r2 > distance); 
+		 
+	}
+	
+	public int getxPos(){
+		return xPos; 
+	}
+	
+	public void setxPos(int newX) {
+		xPos = newX; 
+	}
+	
+	public int getyPos() {
+		return yPos;
+	}
+
+	public void setyPos(int yPos) {
+		this.yPos = yPos;
+	}
+
+	public int getvX() {
+		return vX;
+	}
+
+	public void setvX(int vX) {
+		this.vX = vX; 
+				
+	}
+
+	public int getvY() {
+		return vY;
+	}
+
+	public void setvY(int vY) {
+		this.vY = vY; 
+	}
+	
+	
+}
