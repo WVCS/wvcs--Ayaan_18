@@ -1,0 +1,158 @@
+package sorting;
+
+import java.util.ArrayList;
+
+public class SortRunner {
+			 
+			public static void main(String[] args) {
+		 
+				
+				int[] values = new int[15]; 
+				int[] values2 = new int[15]; 
+				
+				
+				ArrayList<Integer> vals = new ArrayList<Integer>(); 
+				ArrayList<Integer> vals2 = new ArrayList<Integer>(); 
+				
+				//randomize the values in the 1d array
+				
+				for(int i = 0; i < values.length; i++) {
+					values[i] = (int) (Math.random()*1001); 
+				}
+				
+				for(int i = 0; i < values2.length; i++) {
+					values2[i] = (int) (Math.random()*1001); 
+				}
+				
+				for(int i = 0; i < vals.size(); i++) {
+					vals.set(i, (int) (Math.random()*1001)); 
+				}
+				for(int i = 0; i < vals2.size(); i++) {
+					vals2.set(i, (int) (Math.random()*1001)); 
+				}
+				
+		//run insertion and selection sort
+				
+				//2 string method 
+				
+				//Insertion Sort- Array
+				for(int i = 0; i < values.length; i++) {
+					
+					System.out.print(values[i] +", ");
+				}
+				
+				insertionSort(values);
+				
+				for(int i = 0; i < values.length; i++) {
+					
+					System.out.print(values[i] +", ");
+				}
+				
+				//Insertion Sort- ArrayList
+				for(int i = 0; i < vals.size(); i++) {
+					
+					System.out.print(vals.get(i) +", ");
+				}
+				insertionSort(vals); 
+				for(int i = 0; i < vals.size(); i++) {
+					
+					System.out.print(vals.get(i) +", ");
+				}
+				
+				//Selection Sort- Array
+				for(int i = 0; i < values2.length; i++) {
+					
+					System.out.print(values2[i] +", ");
+				}
+				
+				selectionSort(values2); 
+				for(int i = 0; i < values2.length; i++) {
+					
+					System.out.print(values2[i] +", ");
+				}
+				
+				
+				//Selection Sort-ArrayList
+				for(int i = 0; i < vals2.size(); i++) {
+					
+					System.out.print(vals2.get(i) +", ");
+				} 
+				
+				selectionSort(vals2); 
+				
+				for(int i = 0; i < vals2.size(); i++) {
+					
+					System.out.print(vals2.get(i) +", ");
+				}
+				
+				
+			}
+		 
+			public static void insertionSort(int[] elements) {
+				int counter = 0;
+				for (int j = 1; j < elements.length; j++) {
+					int temp = elements[j];
+					int possibleIndex = j;
+					while (possibleIndex > 0 && temp < elements[possibleIndex - 1]) {
+						elements[possibleIndex] = elements[possibleIndex - 1];
+						possibleIndex--;
+						counter++;
+					}
+					elements[possibleIndex] = temp;
+				}
+				System.out.println(counter);
+			}
+			
+			public static void insertionSort(ArrayList<Integer> elements) {
+				int counter = 0;
+				for (int j = 1; j < elements.size(); j++) {
+					int temp = elements.get(j);
+					int possibleIndex = j;
+					while (possibleIndex > 0 && temp < elements.get(possibleIndex - 1)) {
+						elements.set(possibleIndex, elements.get(possibleIndex - 1));
+						possibleIndex--;
+						counter++;
+					}
+					elements.set(possibleIndex, temp);
+				}
+				System.out.println(counter);
+			}
+		 
+			public static void selectionSort(int[] elements) {
+				int counter = 0;
+				for (int j = 0; j < elements.length - 1; j++) {
+					int minIndex = j;
+					for (int k = j + 1; k < elements.length; k++) {
+						if (elements[k] < elements[minIndex]) {
+							minIndex = k;
+						}
+						counter++;
+					}
+					int temp = elements[j];
+					elements[j] = elements[minIndex];
+					elements[minIndex] = temp;
+				}
+				System.out.println(counter);
+			}
+			
+			
+			public static void selectionSort(ArrayList<Integer> elements) {
+				int counter = 0;
+				for (int j = 0; j < elements.size() - 1; j++) {
+					int minIndex = j;
+					for (int k = j + 1; k < elements.size(); k++) {
+						if (elements.get(k) < elements.get(minIndex)) {
+							minIndex = k;
+						}
+						counter++;
+					}
+					int temp = elements.get(j);
+					elements.set(j, minIndex);
+					elements.set(minIndex, temp);
+				}
+				System.out.println(counter);
+			}
+		
+	}
+
+
