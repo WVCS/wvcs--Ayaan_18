@@ -66,34 +66,72 @@ public class Recursion extends JPanel implements ActionListener{
 			clover(g, width+10, x-10, y-10, 10);
 		}
 		if(width <= 300 && lst == 20) {
-			clover(g, width+10, x+10, y-10, 20);
+			clover(g, width+10, x, y-10, 20);
 		}
 		if(width <= 300 && lst == 30) {
-			clover(g, width+10, x-10, y-10, 30);
+			clover(g, width+10, x-10, y, 30);
 		}
 		if(width <= 300 && lst == 40) {
-			clover(g, width+10, x-10, y-10, 40);
+			clover(g, width+10, x, y, 40);
 		}
 		
 	}
 	
-//	public void snowflake(Graphics g, int x1, int y1, int x2, int y2) {
-//		g.drawLine(x1, y1, x2, y2);
-//	}
+	public void snowflake(Graphics g, int x1, 
+			int y1, int x2, int y2, int len) {
+		
+		int dX;
+		int dY; 
+		int x3, x4, x5, y3, y4, y5; 
+		
+		g.setColor(Color.white); 
+		
+		if(len == 0) {
+		g.drawLine(x1, y1, x2, y2);
+		}
+		else {
+			dX = x2-x1; 
+			dY = y2 - y1;
+			x3 = x1 + dX/3; 
+			y3 = y1 + dY/3; 
+			x4 = (int) (0.5 * (x1+x2) + Math.sqrt(3) * (y1-y2)/6); 
+			y4 = (int) (0.5 * (y1+y2) + Math.sqrt(3) * (x2-x1)/6);
+			x5 = x1 + 2 * dX/3;
+			y5 = y1 + 2 * dY/3; 
+				
+			snowflake(g, x1, y1, x3, y3, len--); 
+//			snowflake(g, x3, y3, x4, y4, len--);
+//			snowflake(g, x4, y4, x5, y5, len--);
+//			snowflake(g, x5, y5, x2, y2, len--);
+		}
+//		if(y1 > 200 && len == 1) {
+//			snowflake(g, x1*6, y1/2 , x2, y2, 1);  
+//			snowflake(); 
+//			snowflake();
+//			snowflake(); 
+//		}
+		
+	}
 
 
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 2000, 2000);
 		
+		
 		//call circles
 		//concentricCircles(g, 100, 0, 0);
 		//squares(g, 275, 225, 200);
-		clover(g, 10, 360, 330, 10);
-
-		clover(g, 10, 360, 330, 20);
-		clover(g, 10, 360, 330, 30);
-		clover(g, 10, 360, 330, 40);
+//		clover(g, 10, 360, 330, 10);
+//		clover(g, 10, 360, 330, 20);
+//		clover(g, 10, 360, 330, 30);
+//		clover(g, 10, 360, 330, 40);
+	
+		snowflake(g, 50, 400, 400, 400, 3);
+		snowflake(g, 400, 400, 350, 50, 3);
+		snowflake(g, 350, 50, 50, 400, 3);
+		
+	
 	} //my code should go above this bracket unless I know about classes
 	
 	public static void main(String[] arg) {
