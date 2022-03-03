@@ -112,6 +112,51 @@ public class Recursion extends JPanel implements ActionListener{
 //		}
 		
 	}
+	
+    public static double height(int length) {
+
+        int height = (int) (length * Math.sqrt(3)/2);
+
+        return height;
+
+    }
+
+    // Draws a filled equilateral triangle whose bottom vertex is (x, y) 
+    // of the specified side length. 
+    public static void filledTriangle(int x, int y, int length) {
+
+        int x2 = x - x/2;
+        int y2 = (int) (y + height(length)/2);
+
+        int x3 = x + (x/2);
+        int y3 = (int) (y + height(length)/2);
+
+        int[] xx = {x, x2, x3};
+        int[] yy = {y, y2, y3};
+
+        //StdDraw.filledPolygon(xx, yy);
+
+    }
+
+    // Draws a Sierpinski triangle of order n, such that the largest filled 
+    // triangle has bottom vertex (x, y) and sides of the specified length. 
+    public static void triangle(int n, int x, int y, int length)
+    {
+        filledTriangle(x, y, length);
+
+        if (n == 1) {
+            System.out.println("Done!");
+        } else {
+            filledTriangle(x, (int) height(length)/2, length/2);
+                x = x/2;
+                length = length/2;
+            filledTriangle(x, y, length);
+            filledTriangle(3*x, y, length);
+            n--;
+            triangle(n, x, y, length);               
+        }
+
+    }
 
 
 	public void paint(Graphics g) {
