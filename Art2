@@ -1,0 +1,201 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+public class Recursion extends JPanel implements ActionListener{
+	
+	/* this method should recursive draw concentric rings */
+	public void concentricCircles(Graphics g, int width, int x, int y) {
+		 
+		//each method vall will draw a circle
+		g.setColor(Color.blue);
+		g.drawOval(x, y, width, width);
+		
+		//then the method should call anther method to draw
+		//a different circle
+		
+		if(width >= 10) {
+			concentricCircles(g, width-10, x+5, y+5); 
+		}
+		
+	}	
+	
+	public void squares(Graphics g, int x, int y, int width) {
+		//add the additional parameters (arguments) so that you can call
+		//on the method recursively
+		
+		int r = (int) (Math.random()*256); 
+		int gr = (int) (Math.random()*256); 
+		int b = (int) (Math.random()*256); 
+		
+		Color temp = new Color(r, gr, b); 
+		g.setColor(temp);
+		g.fillRect(x, y, width, width);
+		
+		if(width > 5){
+			squares(g, x-width*2/3, y-width*2/3, width/3); 
+			squares(g, x+width/3, y-width*2/3, width/3);
+			squares(g, x+width*4/3, y-width*2/3, width/3);
+			squares(g, x+width*4/3, y+width/3, width/3);
+			squares(g, x+width*4/3, y+width*4/3, width/3);
+			squares(g, x+width/3, y+width*4/3, width/3);
+			squares(g, x-width*2/3, y+width*4/3, width/3);
+			squares(g, x-width*2/3, y+width/3, width/3);
+			
+			}
+	}
+	
+	
+	
+	
+	public void clover(Graphics g, int width, int x, int y, int lst) { //What additional variables will you need to draw the shape?
+		g.setColor(Color.white);
+		g.drawOval(x, y, width, width);
+//		g.drawOval(700-x, 640-y, width, width);
+//		g.drawOval(800-x, 600-y, width, width);
+//		g.drawOval(x, y, width, width);
+		
+		if(width <= 300 && lst == 10) {
+			clover(g, width+10, x-10, y-10, 10);
+		}
+		if(width <= 300 && lst == 20) {
+			clover(g, width+10, x, y-10, 20);
+		}
+		if(width <= 300 && lst == 30) {
+			clover(g, width+10, x-10, y, 30);
+		}
+		if(width <= 300 && lst == 40) {
+			clover(g, width+10, x, y, 40);
+		}
+		
+	}
+	
+	public void snowflake(Graphics g, int x1, 
+			int y1, int x2, int y2, int len) {
+		
+		int dX;
+		int dY; 
+		int x3, x4, x5, y3, y4, y5; 
+		
+		g.setColor(Color.white); 
+		
+		if(len == 0) {
+		g.drawLine(x1, y1, x2, y2);
+		}
+		else {
+			dX = x2-x1; 
+			dY = y2 - y1;
+			x3 = x1 + dX/3; 
+			y3 = y1 + dY/3; 
+			x4 = (int) (0.5 * (x1+x2) + Math.sqrt(3) * (y1-y2)/6); 
+			y4 = (int) (0.5 * (y1+y2) + Math.sqrt(3) * (x2-x1)/6);
+			x5 = x1 + 2 * dX/3;
+			y5 = y1 + 2 * dY/3; 
+				
+			snowflake(g, x1, y1, x3, y3, len--); 
+//			snowflake(g, x3, y3, x4, y4, len--);
+//			snowflake(g, x4, y4, x5, y5, len--);
+//			snowflake(g, x5, y5, x2, y2, len--);
+		}
+//		if(y1 > 200 && len == 1) {
+//			snowflake(g, x1*6, y1/2 , x2, y2, 1);  
+//			snowflake(); 
+//			snowflake();
+//			snowflake(); 
+//		}
+		
+	}
+	   
+    private void sTriangle(int level, int x, int y, int size, Graphics g) {
+		if(level < 0) {
+			return;
+		}
+ 
+		g.setColor(Color.WHITE);
+		
+		int x2 = x + size; 
+		int y2 = y; 
+		int x3 = (x+x2)/2; 
+		int y3 = (int) (y + (Math.sqrt(3)*size/2)); 
+		
+		g.drawLine(x, y, x2, y2);
+		g.drawLine(x, y, x3, y3);
+		g.drawLine(x2, y2, x3, y3);
+		
+		sTriangle(level-1, x, y, size/2, g);
+		sTriangle(level-1, (x+x2)/2, (y+y2)/2, size/2, g);
+		sTriangle(level-1, (x+x3)/2, (y+y3)/2, size/2, g); 
+	}
+    
+    public void tree(Graphics g, double angle, int x1, int y1, int length) {
+    	
+    	if(length < 10) {
+    		return; 
+    	}
+    	
+    	int dX = (int)  (Math.cos(angle) * length);
+    	int dY = (int) (Math.sin(angle) * length); 
+    	int x2 = x1 - dX;
+    	int y2 = y1 - dY;
+    	
+    	g.setColor(Color.white);
+    	g.drawLine(x1, y1, x2, y2);
+    	
+    	tree(g, angle - Math.PI/6, x2, y2, length*3/4);
+    	tree(g, angle + Math.PI/6, x2, y2, length*3/4);
+    }
+
+
+	public void paint(Graphics g) {
+		g.setColor(Color.black);
+		g.fillRect(0, 0, 2000, 2000);
+		
+		
+		//call circles
+		concentricCircles(g, 100, 0, 0);
+		
+		squares(g, 275, 225, 200);
+		
+		clover(g, 10, 360, 330, 10);
+		clover(g, 10, 360, 330, 20);
+		clover(g, 10, 360, 330, 30);
+		clover(g, 10, 360, 330, 40);
+		
+		sTriangle(8, 150, 100, 400, g); 
+		
+		tree(g, Math.PI/2, 375, 400, 100); 
+		
+	
+	} //my code should go above this bracket unless I know about classes
+	
+	public static void main(String[] arg) {
+		
+		// line of code to create a MethodPractice object
+		Recursion m = new Recursion();
+	
+	}// end of main method body 
+	
+	
+	//constructor for the class
+	//kind of looks like a method but no return type!!!
+	public Recursion() {
+		JFrame f = new JFrame("Recursive Methods");
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ 		f.setSize(800,600);
+		f.add(this);
+		f.setVisible(true);
+		
+	}
+	Timer t = new Timer(16, this);
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		repaint();
+	}
+
+}//last curly - do not delete
