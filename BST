@@ -238,6 +238,8 @@ public class p1 {
 		int yPos = y; // OFFICIAL Y POSITION VAR
 		int tX = x; // HOLDING TEMPORARY X POS ON BOARD
 		int tY = y; // HOLDING TEMPORARY Y POS ON BOARD
+		int cX = -1; // STORING X CAKE POSITION
+		int cY = -1; // STORING Y CAKE POSITION
 
 		// testing vals for enqueing method
 
@@ -261,6 +263,10 @@ public class p1 {
 			// NORTH
 			if (xPos > 0 && tMapB[xPos - 1][yPos] == false) {
 				if ((tMap[xPos - 1][yPos] + "").equals("C")) {
+					cX = xPos - 1;
+					cY = yPos;
+					enLo.add(cX);
+					enLo.add(cY); 
 					break;
 				} else if ((tMap[xPos - 1][yPos] + "").equals(".")) {
 					tX = xPos - 1;
@@ -277,6 +283,10 @@ public class p1 {
 
 			if (xPos < rows - 1 && tMapB[xPos + 1][yPos] == false) {
 				if ((tMap[xPos + 1][yPos] + "").equals("C")) {
+					cX = xPos + 1;
+					cY = yPos;
+					enLo.add(cX);
+					enLo.add(cY); 
 					break;
 				} else if ((tMap[xPos + 1][yPos] + "").equals(".")) {
 
@@ -293,6 +303,10 @@ public class p1 {
 			// EAST
 			if (yPos < cols - 1 && tMapB[xPos][yPos + 1] == false) {
 				if ((tMap[xPos][yPos + 1] + "").equals("C")) {
+					cX = xPos;
+					cY = yPos + 1;
+					enLo.add(cX);
+					enLo.add(cY); 
 					break;
 				} else if ((tMap[xPos][yPos + 1] + "").equals(".")) {
 					tX = xPos;
@@ -308,6 +322,10 @@ public class p1 {
 			// WEST
 			if (yPos > 0 && tMapB[xPos][yPos - 1] == false) {
 				if ((tMap[xPos][yPos - 1] + "").equals("C")) {
+					cX = xPos;
+					cY = yPos - 1;
+					enLo.add(cX);
+					enLo.add(cY); 
 					break;
 				} else if ((tMap[xPos][yPos - 1] + "").equals(".")) {
 					tX = xPos;
@@ -331,9 +349,29 @@ public class p1 {
 			System.out.println(deLo);
 
 			// UPDATING SIZE
-			size = enLo.size();
+			size = enLo.size(); 
 
 		}
+		
+		// PATH FINDING
+		
+		// CONFIRMING CAKE LOCATION
+		System.out.println(cX);
+		System.out.println(cY); 
+		
+		// FINDING IDEAL PATH WITH DEQUEUE
+		
+		/*for(int i = 0; i < deLo.size(); i++) {
+			if() {
+				
+			}
+			
+		
+		}*/
+		
+		
+		
+		
 	}
 
 }
