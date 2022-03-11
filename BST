@@ -1,157 +1,339 @@
+import java.awt.print.Printable;
+import java.io.File;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Stack;
 
-public class BinaryTree {
+public class p1 {
 
-	Node head;
-	int size;
-	String builder;
-	Node root; 
+	int rows, cols, rooms;
+	char[][] coordMap = new char[rows * rooms * cols][3];
 
-	public BinaryTree() {
-		head = null;
-		size = 0;
-		root = head; 
-	}
+	// ArrayDeque enlo;
 
-	/**
-	 * Add node to the tree! keeps the tree in a sorted fashion every node to the
-	 * right of a node is >= to that node every node to the left of a node is <= to
-	 * that node
-	 * 
-	 * @param args
-	 */
-
-	public void add(Node n) {
-		if (head == null) {
-			head = n;
-			size++;
-		} else {
-			Node prev = null;
-			Node curr = head;
-			while (curr != null) {
-				prev = curr;
-				if (curr.getData() > n.getData()) {
-					curr = curr.left;
-				} else {
-					curr = curr.right;
-				}
-			}
-
-			if (prev.getData() <= n.getData()) {
-				prev.right = n;
-				size++;
-			} else {
-				prev.left = n;
-				size++;
-			}
-		}
-	}
-
-	/*public void print() {
-		// print all the elements- no specifics for time being
-		// for testing purposes
-		System.out.print(head);
-		Node curr = head;
-		while (curr.right != null) {
-			System.out.println(curr.right);
-			curr = curr.right;
-		}
-		while (curr.left != null) {
-			System.out.println(curr.left);
-			head = curr.left;
-		}
-
-	}
-	*/
+	static Queue<Integer> enLo = new LinkedList<>();
+	static Queue<Integer> deLo = new LinkedList<>();
+	static int kX, kY;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-			
-		//Write blocks of code to use binary tree you implement
-		//try adding elements and printing tree
-		
-		BinaryTree test = new BinaryTree(); 
-		Node n1 = new Node(3); 
-		Node n2 = new Node(1);
-		Node n3 = new Node(5);
-		Node n4 = new Node(2);
-		
-		test.add(n1);
-		test.add(n2);
-		test.add(n3);
-		test.add(n4);
-		
-		//test.print(); 
-		System.out.println(test.bfs()); 
-		System.out.println(test.dfs()); 
-		
-	}
+		Scanner scanner;
+		Scanner scanner2;
+		Scanner scanner3;
+		Scanner scanner4;
+		Scanner scanner5;
+		Scanner scanner6;
+		File f = new File("map1.txt");
+		File f2 = new File("CoordinateMap1.txt");
 
-	public String bfs() {
-		// return a string representation of the nodes
-		// in a breadth-first-traversal
-		int h = height(head);
-		for (int i = 1; i <= h; i++) {
-			printCurrentLevel(head, i);
+		try {
+			// code that might throw a special error
+			scanner = new Scanner(f);
+			scanner2 = new Scanner(f);
+			scanner3 = new Scanner(f2);
+			scanner4 = new Scanner(f2);
+			scanner5 = new Scanner(f);
+			scanner6 = new Scanner(f);
+
+			// use next methods to grab first 3 numbers form the file
+			// with your map info
+			int rows = scanner.nextInt();
+			System.out.println(rows);
+			int cols = scanner.nextInt();
+			System.out.println(cols);
+			int rooms = scanner.nextInt();
+			System.out.println(rooms);
+			char[][] map = new char[rows * rooms][cols];
+			boolean[][] booleanMap = new boolean[rows * rooms][cols];
+			int cX = 0;
+			int cR = 0;
+
+			for (int i = 0; i < booleanMap.length; i++) {
+				for (int j = 0; j < booleanMap[0].length; j++) {
+					booleanMap[i][j] = false;
+				}
+			}
+
+			scanner.nextLine();
+
+			while (scanner.hasNextLine()) {
+
+				String line = scanner.nextLine();
+
+				// use charAt to grab the elements of the map for a given row
+
+				// System.out.println(line);
+
+				for (int j = 0; j < line.length(); j++) {
+
+					map[cX][j] = line.charAt(j);
+
+				}
+
+				cX++;
+			}
+
+			for (int i = 0; i < rows * rooms; i++) {
+				for (int j = 0; j < cols; j++) {
+					System.out.print(map[i][j]);
+				}
+				System.out.println();
+			}
+
+			coordinateBased(scanner2);
+
+			// coordinateBased2(scanner3);
+
+			char[][] cMap = coordinateBased2(scanner3);
+
+			System.out.print(cMap);
+
+			for (int i = 0; i < cMap.length; i++) {
+				for (int j = 0; j < cMap[0].length; j++) {
+					if ((cMap[i][j] + "").equals("K")) {
+						kX = i / (rows);
+						kY = j;
+						System.out.print(" " + kX + " " + kY);
+
+					}
+				}
+
+			}
+
+			// ENQUEING KIRBY POSITION
+			String kPos = (kX + "" + kY);
+			int temp = Integer.parseInt(kPos);
+			//enLo.add(temp);
+			enLo.add(kX);
+			enLo.add(kY); 
+			// System.out.println(enLo.remove());
+			deLo.add(enLo.remove());
+			deLo.add(enLo.remove());
+
+			templateBased(scanner6);
+			queueCake(scanner4, scanner5, booleanMap, kX, kY);
+
+		} catch (Exception e) {
+			System.out.println(e);
 		}
-		return builder;
 	}
 
-	public void printLevelOrder() {
-		int h = height(root); //head
-		for (int i = 1; i <= h; i++)
-			printCurrentLevel(root, i); //head
-	}
+	public static char[][] templateBased(Scanner scan) {
+		int rows = scan.nextInt();
+		System.out.println(rows);
+		int cols = scan.nextInt();
+		System.out.println(cols);
+		int rooms = scan.nextInt();
+		System.out.println(rooms);
+		char[][] map = new char[rows * rooms][cols];
+		int cX = 0;
+		int cR = 0;
 
-	/*
-	 * Compute the "height" of a tree -- the number of nodes along the longest path
-	 * from the root node down to the farthest leaf node.
-	 */
-	public int height(Node root) {
-		if (root == null)
-			return 0;
-		else {
-			/* compute height of each subtree */
-			int lheight = height(root.left);
-			int rheight = height(root.right);
+		scan.nextLine();
 
-			/* use the larger one */
-			if (lheight > rheight)
-				return (lheight + 1);
-			else
-				return (rheight + 1);
+		while (scan.hasNextLine()) {
+
+			String line = scan.nextLine();
+
+			// use charAt to grab the elements of the map for a given row
+
+			// System.out.println(line);
+
+			for (int j = 0; j < line.length(); j++) {
+
+				map[cX][j] = line.charAt(j);
+
+			}
+
+			cX++;
 		}
-	}
 
-	/* Print nodes at the current level */
-	public void printCurrentLevel(Node root, int level) {
-		if (root == null)
-			return;
-		if (level == 1)
-			builder += root.getData() + " ";
-		else if (level > 1) {
-			printCurrentLevel(root.left, level - 1);
-			printCurrentLevel(root.right, level - 1);
+		for (int i = 0; i < rows * rooms; i++) {
+			for (int j = 0; j < cols; j++) {
+				System.out.print(map[i][j]);
+			}
+			System.out.println();
 		}
-	}
 
-	// pre-order depth-first-search traversal
-
-	public String dfs() {
-
-		return printDepOrder(head);
+		return map;
 
 	}
 
-	public String printDepOrder(Node node) {
-		if (node == null) {
-			return "";
+	public static char[][] coordinateBased(Scanner scan) {
+		int rows = scan.nextInt();
+		int cols = scan.nextInt();
+		int rooms = scan.nextInt();
+		char[][] normMap = new char[rows * rooms][cols];
+		char[][] coordMap = new char[rows * rooms * cols][3];
+		int count = 0;
+		int c = 0;
+
+		scan.nextLine();
+		while (scan.hasNextLine()) {
+
+			String line = scan.nextLine();
+
+			// use charAt to grab the elements of the map for a given row
+			for (int i = 0; i < line.length(); i++) {
+				coordMap[c][0] = line.charAt(i);
+				coordMap[c][1] = ("" + count).charAt(0);
+				coordMap[c][2] = ("" + i).charAt(0);
+
+				c++;
+			}
+			count++;
+			if (count > rows - 1) {
+				count = 0;
+			}
 		}
-		return ((node.getData() + " ") + printDepOrder(node.left) + printDepOrder(node.right));
+
+		for (int i = 0; i < coordMap.length; i++) {
+			for (int j = 0; j < coordMap[0].length; j++) {
+				System.out.print(coordMap[i][j]);
+			}
+			System.out.println();
+		}
+
+		return coordMap;
 
 	}
 
-	public String printDepOrder() {
-		return printDepOrder(head);
+	public static char[][] coordinateBased2(Scanner scan) {
+		int rows = scan.nextInt();
+		System.out.println(rows);
+		int cols = scan.nextInt();
+		System.out.println(cols);
+		int rooms = scan.nextInt();
+		System.out.println(rooms);
+		char[][] map = new char[rows * rooms * cols][3];
+		int cX = 0;
+
+		scan.nextLine();
+
+		while (scan.hasNextLine()) {
+
+			String line = scan.nextLine();
+
+			// use charAt to grab the elements of the map for a given row
+			for (int j = 0; j < line.length(); j++) {
+				map[cX][j] = ("" + line).charAt(j);
+			}
+			cX++;
+		}
+
+		return map;
+ 
+	}
+
+	public static void queueCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
+
+		char[][] cMap = coordinateBased2(scan);
+		char[][] tMap = templateBased(scan2); // TEMPLATE MAP
+		int rows = tMap.length;
+		int cols = tMap[0].length;
+		boolean[][] tMapB = map; // BOOLEAN MAP TO CHECK IF TILES ARE ALREADY CHECKED
+		int xPos = x; // OFFICIAL X POSITION VAR
+		int yPos = y; // OFFICIAL Y POSITION VAR
+		int tX = x; // HOLDING TEMPORARY X POS ON BOARD
+		int tY = y; // HOLDING TEMPORARY Y POS ON BOARD
+
+		// testing vals for enqueing method
+
+		System.out.println(xPos);
+		System.out.println(yPos);
+		System.out.println(enLo);
+		System.out.println(deLo);
+
+		// SINCE KIRBY ALREADY DEQUEUED DECLARE SIZE VAR AT 1
+
+		int size = 1;
+
+		// ENQUEING ALL WALKABLE TILES
+		while (size > 0) {
+
+			// GET RID OF INITIAL SIZE THAT'S PLACEHOLDER FOR KIRBY DEQUEUE
+			if (size == 1 && enLo.size() == 0) {
+				size--;
+			}
+
+			// NORTH
+			if (xPos > 0 && tMapB[xPos - 1][yPos] == false) {
+				if ((tMap[xPos - 1][yPos] + "").equals("C")) {
+					break;
+				} else if ((tMap[xPos - 1][yPos] + "").equals(".")) {
+					tX = xPos - 1;
+					tY = yPos;
+					tMapB[tX][tY] = true;
+
+					enLo.add(tX);
+					enLo.add(tY);
+					System.out.println(enLo);
+				}
+			}
+
+			// SOUTH
+
+			if (xPos < rows - 1 && tMapB[xPos + 1][yPos] == false) {
+				if ((tMap[xPos + 1][yPos] + "").equals("C")) {
+					break;
+				} else if ((tMap[xPos + 1][yPos] + "").equals(".")) {
+
+					tX = xPos + 1;
+					tY = yPos;
+					tMapB[tX][tY] = true;
+
+					enLo.add(tX);
+					enLo.add(tY);
+					System.out.println(enLo);
+				}
+			}
+
+			// EAST
+			if (yPos < cols - 1 && tMapB[xPos][yPos + 1] == false) {
+				if ((tMap[xPos][yPos + 1] + "").equals("C")) {
+					break;
+				} else if ((tMap[xPos][yPos + 1] + "").equals(".")) {
+					tX = xPos;
+					tY = yPos + 1;
+					tMapB[tX][tY] = true;
+
+					enLo.add(tX);
+					enLo.add(tY);
+					System.out.println(enLo);
+				}
+			}
+
+			// WEST
+			if (yPos > 0 && tMapB[xPos][yPos - 1] == false) {
+				if ((tMap[xPos][yPos - 1] + "").equals("C")) {
+					break;
+				} else if ((tMap[xPos][yPos - 1] + "").equals(".")) {
+					tX = xPos;
+					tY = yPos - 1;
+					tMapB[tX][tY] = true;
+
+					enLo.add(tX);
+					enLo.add(tY);
+					System.out.println(enLo);
+				}
+			}
+
+			// DEQUEING TO NEXT LOCATION
+			xPos = enLo.peek();
+			System.out.println(xPos);
+			deLo.add(enLo.remove());
+			System.out.println(deLo);
+			yPos = enLo.peek();
+			System.out.println(yPos);
+			deLo.add(enLo.remove());
+			System.out.println(deLo);
+
+			// UPDATING SIZE
+			size = enLo.size();
+
+		}
 	}
 
 }
