@@ -445,21 +445,21 @@ public class p1 {
 		int cX = -1; // STORING X CAKE POSITION
 		int cY = -1; // STORING Y CAKE POSITION
 
-		// testing vals for enqueing method
+		// testing vals for PUSHING method
 
 		System.out.println(xPos);
 		System.out.println(yPos);
 		System.out.println(enStack);
 		System.out.println(deStack);
 
-		// SINCE KIRBY ALREADY DEQUEUED DECLARE SIZE VAR AT 1
+		// SINCE KIRBY ALREADY IN POP STACK DECLARE SIZE VAR AT 1
 
 		int size = 1;
 
 		// ENQUEING ALL WALKABLE TILES
 		while (size > 0) {
 
-			// GET RID OF INITIAL SIZE THAT'S PLACEHOLDER FOR KIRBY DEQUEUE
+			// GET RID OF INITIAL SIZE THAT'S PLACEHOLDER FOR KIRBY POP STACK
 			if (size == 1 && enStack.size() == 0) {
 				size--;
 			}
@@ -542,7 +542,7 @@ public class p1 {
 				}
 			}
 
-			// DEQUEING TO NEXT LOCATION
+			// POPPING TO NEXT LOCATION
 			yPos = enStack.peek();
 			System.out.println(yPos);
 			enStack.pop();
@@ -605,7 +605,7 @@ public class p1 {
 			System.out.println(prevX);
 			System.out.println(prevY);
 			
-			//CHECKING IF DELO ELEMENT WITHIN 1 OF PREVIOUS LOCATION
+			//CHECKING IF POP STACK ELEMENT WITHIN 1 OF PREVIOUS LOCATION
 			if ((currX == prevX && currY == prevY - 1) || (currX == prevX && currY == prevY + 1)
 					|| (currX == prevX + 1 && currY == prevY) || (currX == prevX - 1 && currY == prevY)) {
 
@@ -625,10 +625,10 @@ public class p1 {
 
 		}
 		
-		//PRINTING OUT DELO ONLY CONTAINING MOVES
+		//PRINTING OUT POP STACK ONLY CONTAINING MOVES
 		System.out.println(deLo);
 		
-		//PRINTING COMPLETED QUEUE PATH
+		//PRINTING COMPLETED STACK PATH
 		for (int i = 0; i < tMapConvert.length; i++) {
 			for (int j = 0; j < tMapConvert[0].length; j++) {
 				System.out.print(tMapConvert[i][j]);
