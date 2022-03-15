@@ -1,6 +1,7 @@
 import java.awt.print.Printable;
 import java.io.File;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -14,7 +15,9 @@ public class p1 {
 	// ArrayDeque enlo;
 
 	static Queue<Integer> enLo = new LinkedList<>();
-	static Queue<Integer> deLo = new LinkedList<>();
+	static ArrayList<Integer> deLo = new ArrayList<Integer>();
+	static Stack<Integer> enStack = new Stack<Integer>();  
+	static Stack<Integer> deStack = new Stack<Integer>(); 
 	static int kX, kY;
 
 	public static void main(String[] args) {
@@ -103,17 +106,22 @@ public class p1 {
 			}
 
 			// ENQUEING KIRBY POSITION
-			String kPos = (kX + "" + kY);
-			int temp = Integer.parseInt(kPos);
 			//enLo.add(temp);
 			enLo.add(kX);
 			enLo.add(kY); 
 			// System.out.println(enLo.remove());
 			deLo.add(enLo.remove());
 			deLo.add(enLo.remove());
+			
+			// ENSTACKING KIRBY POSITION
+			enStack.push(kX);
+			deStack.push(enStack.pop()); 
+			enStack.push(kY); 
+			deStack.push(enStack.pop()); 
 
 			templateBased(scanner6);
-			queueCake(scanner4, scanner5, booleanMap, kX, kY);
+			//queueCake(scanner4, scanner5, booleanMap, kX, kY);
+			stackCake(scanner4, scanner5, booleanMap, kX, kY);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -266,7 +274,7 @@ public class p1 {
 					cX = xPos - 1;
 					cY = yPos;
 					enLo.add(cX);
-					enLo.add(cY); 
+					enLo.add(cY);
 					break;
 				} else if ((tMap[xPos - 1][yPos] + "").equals(".")) {
 					tX = xPos - 1;
@@ -286,7 +294,7 @@ public class p1 {
 					cX = xPos + 1;
 					cY = yPos;
 					enLo.add(cX);
-					enLo.add(cY); 
+					enLo.add(cY);
 					break;
 				} else if ((tMap[xPos + 1][yPos] + "").equals(".")) {
 
@@ -306,7 +314,7 @@ public class p1 {
 					cX = xPos;
 					cY = yPos + 1;
 					enLo.add(cX);
-					enLo.add(cY); 
+					enLo.add(cY);
 					break;
 				} else if ((tMap[xPos][yPos + 1] + "").equals(".")) {
 					tX = xPos;
@@ -325,7 +333,7 @@ public class p1 {
 					cX = xPos;
 					cY = yPos - 1;
 					enLo.add(cX);
-					enLo.add(cY); 
+					enLo.add(cY);
 					break;
 				} else if ((tMap[xPos][yPos - 1] + "").equals(".")) {
 					tX = xPos;
@@ -349,29 +357,289 @@ public class p1 {
 			System.out.println(deLo);
 
 			// UPDATING SIZE
-			size = enLo.size(); 
+			size = enLo.size();
+
+		}
+
+		// PATH FINDING
+
+		
+		// CONFIRMING CAKE LOCATION
+		// System.out.println(cX);
+		// System.out.println(cY);
+
+		// FINDING IDEAL PATH WITH DEQUEUE
+
+		int currX, currY;
+		int prevX, prevY;
+
+		int pos = deLo.size();
+		System.out.println(pos);
+
+		currX = cX;
+		currY = cY;
+
+		System.out.println(cX + " " + cY);
+		
+		//CONVERTING TEMPLATE MAP TO STRING FOR EASY MANIPULATION
+		String[][] tMapConvert = new String[tMap.length][tMap[0].length];
+
+		for (int i = 0; i < tMapConvert.length; i++) {
+			for (int j = 0; j < tMapConvert[0].length; j++) {
+				tMapConvert[i][j] = String.valueOf(tMap[i][j]);
+			}
+
+		}
+
+		while (pos >= 2) {
+
+			prevX = deLo.get(pos - 2);
+			prevY = deLo.get(pos - 1);
+			System.out.println(prevX);
+			System.out.println(prevY);
+			
+			//CHECKING IF DELO ELEMENT WITHIN 1 OF PREVIOUS LOCATION
+			if ((currX == prevX && currY == prevY - 1) || (currX == prevX && currY == prevY + 1)
+					|| (currX == prevX + 1 && currY == prevY) || (currX == prevX - 1 && currY == prevY)) {
+
+				currX = prevX;
+				currY = prevY;
+
+				tMapConvert[prevX][prevY] = "+";
+				tMapConvert[kX][kY] = "K";
+
+			} else {
+				//MOVING ON TO NEXT STOP FOR ITERATION
+				deLo.remove(pos - 1);
+				deLo.remove(pos - 2);
+			}
+			
+			pos -= 2;
 
 		}
 		
+		//PRINTING OUT DELO ONLY CONTAINING MOVES
+		System.out.println(deLo);
+		
+		//PRINTING COMPLETED QUEUE PATH
+		for (int i = 0; i < tMapConvert.length; i++) {
+			for (int j = 0; j < tMapConvert[0].length; j++) {
+				System.out.print(tMapConvert[i][j]);
+			}
+			System.out.println();
+		}
+
+	}
+	
+	public static void stackCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
+
+		char[][] cMap = coordinateBased2(scan);
+		char[][] tMap = templateBased(scan2); // TEMPLATE MAP
+		int rows = tMap.length;
+		int cols = tMap[0].length;
+		boolean[][] tMapB = map; // BOOLEAN MAP TO CHECK IF TILES ARE ALREADY CHECKED
+		int xPos = x; // OFFICIAL X POSITION VAR
+		int yPos = y; // OFFICIAL Y POSITION VAR
+		int tX = x; // HOLDING TEMPORARY X POS ON BOARD
+		int tY = y; // HOLDING TEMPORARY Y POS ON BOARD
+		int cX = -1; // STORING X CAKE POSITION
+		int cY = -1; // STORING Y CAKE POSITION
+
+		// testing vals for enqueing method
+
+		System.out.println(xPos);
+		System.out.println(yPos);
+		System.out.println(enStack);
+		System.out.println(deStack);
+
+		// SINCE KIRBY ALREADY DEQUEUED DECLARE SIZE VAR AT 1
+
+		int size = 1;
+
+		// ENQUEING ALL WALKABLE TILES
+		while (size > 0) {
+
+			// GET RID OF INITIAL SIZE THAT'S PLACEHOLDER FOR KIRBY DEQUEUE
+			if (size == 1 && enStack.size() == 0) {
+				size--;
+			}
+
+			// NORTH
+			if (xPos > 0 && tMapB[xPos - 1][yPos] == false) {
+				if ((tMap[xPos - 1][yPos] + "").equals("C")) {
+					cX = xPos - 1;
+					cY = yPos;
+					enStack.push(cX);
+					enStack.push(cY);
+					break;
+				} else if ((tMap[xPos - 1][yPos] + "").equals(".")) {
+					tX = xPos - 1;
+					tY = yPos;
+					tMapB[tX][tY] = true;
+
+					enStack.push(tX);
+					enStack.push(tY);
+					System.out.println(enStack);
+				}
+			}
+
+			// SOUTH
+
+			if (xPos < rows - 1 && tMapB[xPos + 1][yPos] == false) {
+				if ((tMap[xPos + 1][yPos] + "").equals("C")) {
+					cX = xPos + 1;
+					cY = yPos;
+					enStack.push(cX);
+					enStack.push(cY);
+					break;
+				} else if ((tMap[xPos + 1][yPos] + "").equals(".")) {
+
+					tX = xPos + 1;
+					tY = yPos;
+					tMapB[tX][tY] = true;
+
+					enStack.push(tX);
+					enStack.push(tY);
+					System.out.println(enStack);
+				}
+			}
+
+			// EAST
+			if (yPos < cols - 1 && tMapB[xPos][yPos + 1] == false) {
+				if ((tMap[xPos][yPos + 1] + "").equals("C")) {
+					cX = xPos;
+					cY = yPos + 1;
+					enStack.push(cX);
+					enStack.push(cY);
+					break;
+				} else if ((tMap[xPos][yPos + 1] + "").equals(".")) {
+					tX = xPos;
+					tY = yPos + 1;
+					tMapB[tX][tY] = true;
+
+					enStack.push(tX);
+					enStack.push(tY);
+					System.out.println(enStack);
+				}
+			}
+
+			// WEST
+			if (yPos > 0 && tMapB[xPos][yPos - 1] == false) {
+				if ((tMap[xPos][yPos - 1] + "").equals("C")) {
+					cX = xPos;
+					cY = yPos - 1;
+					enStack.push(cX);
+					enStack.push(cY);
+					break;
+				} else if ((tMap[xPos][yPos - 1] + "").equals(".")) {
+					tX = xPos;
+					tY = yPos - 1;
+					tMapB[tX][tY] = true;
+
+					enStack.push(tX);
+					enStack.push(tY);
+					System.out.println(enStack);
+				}
+			}
+
+			// DEQUEING TO NEXT LOCATION
+			yPos = enStack.peek();
+			System.out.println(yPos);
+			enStack.pop();
+			xPos = enStack.peek();
+			System.out.println(xPos);
+			enStack.pop();
+			
+			deStack.push(xPos);
+			System.out.println(deStack);
+			deStack.push(yPos);
+			System.out.println(deStack);
+			
+
+			// UPDATING SIZE
+			size = enStack.size();
+			
+
+		}
+		System.out.println(enStack); 
+		System.out.println(deStack); 
+
+
+		
+		
 		// PATH FINDING
+
 		
 		// CONFIRMING CAKE LOCATION
-		System.out.println(cX);
-		System.out.println(cY); 
+		// System.out.println(cX);
+		// System.out.println(cY);
+
+		// FINDING IDEAL PATH WITH DESTACK
+
+		int currX, currY;
+		int prevX, prevY;
+
+		int pos = deStack.size();
+		System.out.println(pos);
+
+		currX = cX;
+		currY = cY;
+
+		System.out.println(cX + " " + cY);
 		
-		// FINDING IDEAL PATH WITH DEQUEUE
+		//CONVERTING TEMPLATE MAP TO STRING FOR EASY MANIPULATION
+		String[][] tMapConvert = new String[tMap.length][tMap[0].length];
+
+		for (int i = 0; i < tMapConvert.length; i++) {
+			for (int j = 0; j < tMapConvert[0].length; j++) {
+				tMapConvert[i][j] = String.valueOf(tMap[i][j]);
+			}
+
+		}
+
 		
-		/*for(int i = 0; i < deLo.size(); i++) {
-			if() {
-				
+		while (pos >= 2) {
+
+			prevX = deStack.get(pos - 2);
+			prevY = deStack.get(pos - 1);
+			System.out.println(prevX);
+			System.out.println(prevY);
+			
+			//CHECKING IF DELO ELEMENT WITHIN 1 OF PREVIOUS LOCATION
+			if ((currX == prevX && currY == prevY - 1) || (currX == prevX && currY == prevY + 1)
+					|| (currX == prevX + 1 && currY == prevY) || (currX == prevX - 1 && currY == prevY)) {
+
+				currX = prevX;
+				currY = prevY;
+
+				tMapConvert[prevX][prevY] = "+";
+				tMapConvert[kX][kY] = "K";
+
+			} else {
+				//MOVING ON TO NEXT STOP FOR ITERATION
+				deStack.remove(pos - 1);
+				deStack.remove(pos - 2);
 			}
 			
-		
-		}*/
-		
-		
-		
-		
-	}
+			pos -= 2;
 
+		}
+		
+		//PRINTING OUT DELO ONLY CONTAINING MOVES
+		System.out.println(deLo);
+		
+		//PRINTING COMPLETED QUEUE PATH
+		for (int i = 0; i < tMapConvert.length; i++) {
+			for (int j = 0; j < tMapConvert[0].length; j++) {
+				System.out.print(tMapConvert[i][j]);
+			}
+			System.out.println();
+		}
+		
+		
+
+	}
+	
+	
+	
 }
