@@ -19,6 +19,7 @@ public class p1 {
 	static Stack<Integer> enStack = new Stack<Integer>();  
 	static Stack<Integer> deStack = new Stack<Integer>(); 
 	static int kX, kY;
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -123,19 +124,30 @@ public class p1 {
 			templateBased(scanner6);
 			
 			// COMMAND LINE ARGUMENT CODE
-
-			for (String s : args) {
+			for (String s : args) {		
 				// CHECKING TO SEE IF PATH IS WANTED
 
 				if (s.equals("--Stack") || s.equals("--Queue") || s.equals("--Opt")) {
-
 					// DECLARING VARS FOR SWITCH TO DECIDE WHICH PATH ALGORITHM TO USE
-
+					
+					
 					int genAlg = 1;
 					boolean stack = false;
 					boolean queue = false;
 					boolean opt = false;
 					boolean time = false; 
+					boolean coord = false;
+					boolean template = false;
+					
+					//CHECKING TO SEE WHICH OUTPUT IS NEEDED
+					for(String z : args) {
+						if(z.equals("--Incoordinate")) {
+							coord = true;
+						}
+						if(z.equals("--Outcoordinate")) {
+							template = true;
+						}
+					}
 
 					for (String p : args) {
 						if(p.equals("--Time")) {
@@ -156,24 +168,24 @@ public class p1 {
 
 					case 1:
 						if (stack == true && time == true) {
-							stackCake(scanner4, scanner5, booleanMap, kX, kY);
+							stackCake(scanner4, scanner5, booleanMap, kX, kY, coord, template);
 							System.out.println("Total Runtime: " + ((System.currentTimeMillis() - run)) + " milliseconds");
 							break;
 						}
 					case 2:
 						if (stack == true && time == false) {
-							stackCake(scanner4, scanner5, booleanMap, kX, kY);
+							stackCake(scanner4, scanner5, booleanMap, kX, kY, coord, template);
 							break;
 						}
 					case 3:
 						if (queue == true && time == true) {
-							queueCake(scanner4, scanner5, booleanMap, kX, kY);
+							queueCake(scanner4, scanner5, booleanMap, kX, kY, coord, template);
 							System.out.println("Total Runtime: " + ((System.currentTimeMillis() - run)) + " milliseconds");
 							break;
 						}
 					case 4:
 						if (queue == true && time == false) {
-							queueCake(scanner4, scanner5, booleanMap, kX, kY);
+							queueCake(scanner4, scanner5, booleanMap, kX, kY, coord, template);
 							break;
 						}
 
@@ -328,7 +340,7 @@ public class p1 {
 		return cMapConversion; 
 	}
 
-	public static void queueCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
+	public static void queueCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y, boolean coord, boolean template) {
 
 		char[][] cMap = coordinateBased2(scan);
 		char[][] tMap = templateBased(scan2); // TEMPLATE MAP
@@ -515,29 +527,86 @@ public class p1 {
 		//PRINTING OUT DELO ONLY CONTAINING MOVES
 		System.out.println(deLo);
 		
+		//CREATING NEW COORDINATE MAP
+		
+		String[][] cMapConvert = coordinateBasedConversion(tMapConvert); 
+		
 		//PRINTING COMPLETED TEMPLATE QUEUE PATH
-		for (int i = 0; i < tMapConvert.length; i++) {
+		/*for (int i = 0; i < tMapConvert.length; i++) {
 			for (int j = 0; j < tMapConvert[0].length; j++) {
 				System.out.print(tMapConvert[i][j]);
 			}
 			System.out.println();
 		}
+		*/
 		
-		//CREATING NEW COORDINATE MAP
+		int printMap = 1; 
+
 		
-		String[][] cMapConvert = coordinateBasedConversion(tMapConvert); 
+		switch (printMap) {
+		
+		case 1: if(coord == true && template == true) {
+			for (int i = 0; i < cMapConvert.length; i++) {
+				for (int j = 0; j < cMapConvert[0].length; j++) {
+					System.out.print(cMapConvert[i][j]);
+				}
+				System.out.println();
+			}
+			for (int i = 0; i < tMapConvert.length; i++) {
+				for (int j = 0; j < tMapConvert[0].length; j++) {
+					System.out.print(tMapConvert[i][j]);
+				}
+				System.out.println();
+			}
+			break;
+		}
+		
+		case 2: 
+			if (coord == true) {
+				for (int i = 0; i < cMapConvert.length; i++) {
+					for (int j = 0; j < cMapConvert[0].length; j++) {
+						System.out.print(cMapConvert[i][j]);
+					}
+					System.out.println();
+				}
+				break;
+			}
+			
+
+		case 3:
+			if (template == true) {
+				for (int i = 0; i < tMapConvert.length; i++) {
+					for (int j = 0; j < tMapConvert[0].length; j++) {
+						System.out.print(tMapConvert[i][j]);
+					}
+					System.out.println();
+				}
+				break;
+			}
+			
+		case 4: 
+				for (int i = 0; i < tMapConvert.length; i++) {
+					for (int j = 0; j < tMapConvert[0].length; j++) {
+						System.out.print(tMapConvert[i][j]);
+					}
+					System.out.println();
+				}
+				break;
+		}
+		
 		
 		//PRINTING COMPLETED COORDINATE QUEUE PATH
-		for (int i = 0; i < cMapConvert.length; i++) {
+		/*for (int i = 0; i < cMapConvert.length; i++) {
 			for (int j = 0; j < cMapConvert[0].length; j++) {
 				System.out.print(cMapConvert[i][j]);
 			}
 			System.out.println();
 		}
+		*/
 
 	}
 	
-	public static void stackCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
+	public static void stackCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y, boolean coord, boolean template) {
 		char[][] cMap = coordinateBased2(scan);
 		char[][] tMap = templateBased(scan2); // TEMPLATE MAP
 		int rows = tMap.length;
@@ -734,29 +803,65 @@ public class p1 {
 		//PRINTING OUT POP STACK ONLY CONTAINING MOVES
 		System.out.println(deLo);
 		
-		//PRINTING COMPLETED STACK PATH
-		for (int i = 0; i < tMapConvert.length; i++) {
-			for (int j = 0; j < tMapConvert[0].length; j++) {
-				System.out.print(tMapConvert[i][j]);
+		String[][] cMapConvert = coordinateBasedConversion(tMapConvert); 
+		
+		int printMap = 1; 
+
+		
+		switch (printMap) {
+		
+		case 1: if(coord == true && template == true) {
+			for (int i = 0; i < cMapConvert.length; i++) {
+				for (int j = 0; j < cMapConvert[0].length; j++) {
+					System.out.print(cMapConvert[i][j]);
+				}
+				System.out.println();
 			}
-			System.out.println();
+			for (int i = 0; i < tMapConvert.length; i++) {
+				for (int j = 0; j < tMapConvert[0].length; j++) {
+					System.out.print(tMapConvert[i][j]);
+				}
+				System.out.println();
+			}
+			break;
 		}
 		
-		//CREATING NEW COORDINATE MAP
-		
-				String[][] cMapConvert = coordinateBasedConversion(tMapConvert); 
-				
-				//PRINTING COMPLETED COORDINATE QUEUE PATH
+		case 2: 
+			if (coord == true) {
 				for (int i = 0; i < cMapConvert.length; i++) {
 					for (int j = 0; j < cMapConvert[0].length; j++) {
 						System.out.print(cMapConvert[i][j]);
 					}
 					System.out.println();
 				}
+				break;
+			}
+			
+
+		case 3:
+			if (template == true) {
+				for (int i = 0; i < tMapConvert.length; i++) {
+					for (int j = 0; j < tMapConvert[0].length; j++) {
+						System.out.print(tMapConvert[i][j]);
+					}
+					System.out.println();
+				}
+				break;
+			}
+			
+		case 4: 
+				for (int i = 0; i < tMapConvert.length; i++) {
+					for (int j = 0; j < tMapConvert[0].length; j++) {
+						System.out.print(tMapConvert[i][j]);
+					}
+					System.out.println();
+				}
+				break;
+		}
 
 	}
 	
-	public static void optimalCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
+	 public static void optimalCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
 		Scanner scanCoordinate = scan;
 		Scanner scanTemplate = scan2; 
 		char[][] coordMap = coordinateBased2(scan);
@@ -778,11 +883,11 @@ public class p1 {
 		
 		if(cX == 0 || cX == tempMap.length-1 || cY == 0 || cY == tempMap[0].length-1) {
 			System.out.println("Hi"); 
-			stackCake(scanCoordinate, scanTemplate, map, kX, kY); 
+			stackCake(scanCoordinate, scanTemplate, map, kX, kY, true, false); 
 			System.out.println("Hello");
 		}
 		else {
-			queueCake(scanCoordinate, scanTemplate, map, kX, kY); 
+			queueCake(scanCoordinate, scanTemplate, map, kX, kY, true, false); 
 		}
 		
 		
