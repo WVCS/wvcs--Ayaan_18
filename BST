@@ -30,8 +30,8 @@ public class p1 {
 		Scanner scanner4;
 		Scanner scanner5;
 		Scanner scanner6;
-		File f = new File("aliMap6.txt");
-		File f2 = new File("aliCoordinateMap6.txt");
+		File f = new File("aliMap1.txt");
+		File f2 = new File("aliCoordinateMap1.txt");
 
 		try {
 			// code that might throw a special error
@@ -346,16 +346,15 @@ public class p1 {
 		scan.nextLine();
 
 		while (scan.hasNextLine()) {
-
-			String line = scan.nextLine();
+			String line = scan.nextLine(); 
 
 			// use charAt to grab the elements of the map for a given row
-			for (int j = 0; j < line.length(); j++) {
+			for (int j = 0; j < line.length()-1; j++) {
 				map[cX][j] = ("" + line).charAt(j);
 			}
 			cX++;
 		}
-
+		
 		return map;
  
 	}
@@ -406,13 +405,14 @@ public class p1 {
 		// SINCE KIRBY ALREADY DEQUEUED DECLARE SIZE VAR AT 1
 
 		int size = 1;
+		
 
 		// ENQUEING ALL WALKABLE TILES
-		while (size > 0) {
+		while (size >= 0) {
 
 			// GET RID OF INITIAL SIZE THAT'S PLACEHOLDER FOR KIRBY DEQUEUE
 			if (size == 1 && enLo.size() == 0) {
-				size--;
+				size-=2;
 			}
 
 			// NORTH
@@ -430,7 +430,7 @@ public class p1 {
 
 					enLo.add(tX);
 					enLo.add(tY);
-					System.out.println(enLo);
+					//System.out.println(enLo);
 				}
 			}
 
@@ -451,7 +451,7 @@ public class p1 {
 
 					enLo.add(tX);
 					enLo.add(tY);
-					System.out.println(enLo);
+					//System.out.println(enLo);
 				}
 			}
 
@@ -470,7 +470,7 @@ public class p1 {
 
 					enLo.add(tX);
 					enLo.add(tY);
-					System.out.println(enLo);
+					//System.out.println(enLo);
 				}
 			}
 
@@ -489,23 +489,25 @@ public class p1 {
 
 					enLo.add(tX);
 					enLo.add(tY);
-					System.out.println(enLo);
+					//System.out.println(enLo);
 				}
+				
 			}
-
+			System.out.println("enLo: " + enLo); 
 			// DEQUEING TO NEXT LOCATION
 			xPos = enLo.peek();
-			System.out.println(xPos);
+			//System.out.println(xPos);
 			deLo.add(enLo.remove());
-			System.out.println(deLo);
+			//System.out.println(deLo);
 			yPos = enLo.peek();
-			System.out.println(yPos);
+			//System.out.println(yPos);
 			deLo.add(enLo.remove());
-			System.out.println(deLo);
-
+			System.out.println("deLo: " + deLo);
+			System.out.println("enLo: " + enLo); 
 			// UPDATING SIZE
 			size = enLo.size();
-
+			
+		
 		}
 
 		// PATH FINDING
@@ -522,29 +524,35 @@ public class p1 {
 
 		int pos = deLo.size();
 		System.out.println(pos);
+		
+		//CONVERTING TEMPLATE MAP AND COORDINATE MAP TO STRING FOR EASY MANIPULATION
+				String[][] tMapConvert = new String[tMap.length][tMap[0].length];
+
+				for (int i = 0; i < tMapConvert.length; i++) {
+					for (int j = 0; j < tMapConvert[0].length; j++) {
+						if((tMap[i][j]+"").equals("C")) {
+							cX = i;
+							cY = j; 
+						}
+						tMapConvert[i][j] = String.valueOf(tMap[i][j]);
+					}
+
+				}
 
 		currX = cX;
 		currY = cY;
 
 		System.out.println(cX + " " + cY);
 		
-		//CONVERTING TEMPLATE MAP AND COORDINATE MAP TO STRING FOR EASY MANIPULATION
-		String[][] tMapConvert = new String[tMap.length][tMap[0].length];
-
-		for (int i = 0; i < tMapConvert.length; i++) {
-			for (int j = 0; j < tMapConvert[0].length; j++) {
-				tMapConvert[i][j] = String.valueOf(tMap[i][j]);
-			}
-
-		}
+		
 		
 
 		while (pos >= 2) {
 
 			prevX = deLo.get(pos - 2);
 			prevY = deLo.get(pos - 1);
-			System.out.println(prevX);
-			System.out.println(prevY);
+			//System.out.println(prevX);
+			//System.out.println(prevY);
 			
 			//CHECKING IF DELO ELEMENT WITHIN 1 OF PREVIOUS LOCATION
 			if ((currX == prevX && currY == prevY - 1) || (currX == prevX && currY == prevY + 1)
@@ -674,11 +682,11 @@ public class p1 {
 		int size = 1;
 
 		// ENQUEING ALL WALKABLE TILES
-		while (size > 0) {
+		while (size >= 0) {
 
 			// GET RID OF INITIAL SIZE THAT'S PLACEHOLDER FOR KIRBY POP STACK
 			if (size == 1 && enStack.size() == 0) {
-				size--;
+				size-=2;
 			}
 
 			// NORTH
@@ -799,20 +807,22 @@ public class p1 {
 		int pos = deStack.size();
 		System.out.println(pos);
 
-		currX = cX;
-		currY = cY;
-
-		System.out.println(cX + " " + cY);
-		
-		//CONVERTING TEMPLATE MAP TO STRING FOR EASY MANIPULATION
+		//CONVERTING TEMPLATE MAP AND COORDINATE MAP TO STRING FOR EASY MANIPULATION
 		String[][] tMapConvert = new String[tMap.length][tMap[0].length];
 
 		for (int i = 0; i < tMapConvert.length; i++) {
 			for (int j = 0; j < tMapConvert[0].length; j++) {
+				if((tMap[i][j]+"").equals("C")) {
+					cX = i;
+					cY = j; 
+				}
 				tMapConvert[i][j] = String.valueOf(tMap[i][j]);
 			}
 
 		}
+
+		currX = cX;
+		currY = cY;
 		
 
 		
