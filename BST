@@ -22,6 +22,7 @@ public class p1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		double run = System.currentTimeMillis();
 		Scanner scanner;
 		Scanner scanner2;
 		Scanner scanner3;
@@ -120,8 +121,78 @@ public class p1 {
 			deStack.push(enStack.pop()); 
 
 			templateBased(scanner6);
-			//queueCake(scanner4, scanner5, booleanMap, kX, kY);
-			stackCake(scanner4, scanner5, booleanMap, kX, kY);
+			
+			// COMMAND LINE ARGUMENT CODE
+
+			for (String s : args) {
+				// CHECKING TO SEE IF PATH IS WANTED
+
+				if (s.equals("--Stack") || s.equals("--Queue") || s.equals("--Opt")) {
+
+					// DECLARING VARS FOR SWITCH TO DECIDE WHICH PATH ALGORITHM TO USE
+
+					int genAlg = 1;
+					boolean stack = false;
+					boolean queue = false;
+					boolean opt = false;
+					boolean time = false; 
+
+					for (String p : args) {
+						if(p.equals("--Time")) {
+							time = true;
+						}
+						if (p.equals("--Stack")) {
+							stack = true;
+						} else if (p.equals("--Queue")) {
+							queue = true;
+
+						} else if (p.equals("--Opt")) {
+							opt = true;
+						}
+					}
+
+					// SWITCH TO DECIDE WHICH PATH FINDER TO USE
+					switch (genAlg) {
+
+					case 1:
+						if (stack == true && time == true) {
+							stackCake(scanner4, scanner5, booleanMap, kX, kY);
+							System.out.println("Total Runtime: " + ((System.currentTimeMillis() - run)) + " milliseconds");
+							break;
+						}
+					case 2:
+						if (stack == true && time == false) {
+							stackCake(scanner4, scanner5, booleanMap, kX, kY);
+							break;
+						}
+					case 3:
+						if (queue == true && time == true) {
+							queueCake(scanner4, scanner5, booleanMap, kX, kY);
+							System.out.println("Total Runtime: " + ((System.currentTimeMillis() - run)) + " milliseconds");
+							break;
+						}
+					case 4:
+						if (queue == true && time == false) {
+							queueCake(scanner4, scanner5, booleanMap, kX, kY);
+							break;
+						}
+
+					case 5:
+						if (opt == true && time == true) {
+							optimalCake(scanner4, scanner5, booleanMap, kX, kY);
+							System.out.println("Total Runtime: " + ((System.currentTimeMillis() - run)) + " milliseconds");
+							break;
+						}
+					case 6:
+						if (opt == true && time == false) {
+							optimalCake(scanner4, scanner5, booleanMap, kX, kY);
+							break;
+						}
+
+					}
+				}
+			}
+			
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -432,7 +503,6 @@ public class p1 {
 	}
 	
 	public static void stackCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
-
 		char[][] cMap = coordinateBased2(scan);
 		char[][] tMap = templateBased(scan2); // TEMPLATE MAP
 		int rows = tMap.length;
@@ -638,6 +708,38 @@ public class p1 {
 		
 		
 
+	}
+	
+	public static void optimalCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
+		Scanner scanCoordinate = scan;
+		Scanner scanTemplate = scan2; 
+		char[][] coordMap = coordinateBased2(scan);
+		char[][] tempMap = templateBased(scan2); // TEMPLATE MAP
+		int cX = -1; // STORING X CAKE POSITION
+		int cY = -1; // STORING Y CAKE POSITION
+		
+		for(int i = 0; i < tempMap.length; i++) {
+			for(int j = 0; j < tempMap[0].length; j++) {
+				if((tempMap[i][j] + "").equals("C")) {
+					cX = i;
+					cY = j; 
+				}
+			}
+			
+			System.out.println(cX + " " + cY);
+			
+		}
+		
+		if(cX == 0 || cX == tempMap.length-1 || cY == 0 || cY == tempMap[0].length-1) {
+			System.out.println("Hi"); 
+			stackCake(scanCoordinate, scanTemplate, map, kX, kY); 
+			System.out.println("Hello");
+		}
+		else {
+			queueCake(scanCoordinate, scanTemplate, map, kX, kY); 
+		}
+		
+		
 	}
 	
 	
