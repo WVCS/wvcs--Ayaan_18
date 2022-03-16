@@ -30,18 +30,47 @@ public class p1 {
 		Scanner scanner4;
 		Scanner scanner5;
 		Scanner scanner6;
-		File f = new File("map1.txt");
-		File f2 = new File("CoordinateMap1.txt");
+		File f = new File("aliMap6.txt");
+		File f2 = new File("aliCoordinateMap6.txt");
 
 		try {
 			// code that might throw a special error
 			scanner = new Scanner(f);
 			scanner2 = new Scanner(f);
-			scanner3 = new Scanner(f2);
+			scanner3 = new Scanner(f);
 			scanner4 = new Scanner(f2);
 			scanner5 = new Scanner(f);
 			scanner6 = new Scanner(f);
+			
+			boolean cakeChecker = false; 
 
+			char[][] tMap = templateBased(scanner3);
+			
+			for (int i = 0; i < tMap.length; i++) {
+				for (int j = 0; j < tMap[0].length; j++) {
+					if((tMap[i][j] + "").equals("C")) {
+						cakeChecker = true; 
+					}
+				}
+			}
+			
+			if(cakeChecker == false) {
+				System.out.println("The Cake is a Lie."); 
+				return;
+			}
+			
+
+			for (int i = 0; i < tMap.length; i++) {
+				for (int j = 0; j < tMap[0].length; j++) {
+					if ((tMap[i][j] + "").equals("K")) {
+						kX = i;
+						kY = j;
+						System.out.println(" " + kX + " " + kY);
+
+					}
+				}
+
+			}
 			// use next methods to grab first 3 numbers form the file
 			// with your map info
 			int rows = scanner.nextInt();
@@ -91,21 +120,12 @@ public class p1 {
 
 			// coordinateBased2(scanner3);
 
-			char[][] cMap = coordinateBased2(scanner3);
+			//char[][] cMap = coordinateBased2(scanner3);
 
-			System.out.print(cMap);
+			//System.out.print(cMap);
+			
 
-			for (int i = 0; i < cMap.length; i++) {
-				for (int j = 0; j < cMap[0].length; j++) {
-					if ((cMap[i][j] + "").equals("K")) {
-						kX = i / (rows);
-						kY = j;
-						System.out.print(" " + kX + " " + kY);
-
-					}
-				}
-
-			}
+			
 
 			// ENQUEING KIRBY POSITION
 			//enLo.add(temp);
@@ -125,8 +145,27 @@ public class p1 {
 			
 			// COMMAND LINE ARGUMENT CODE
 			for (String s : args) {		
+				boolean help = false;
+				if(s.equals("--Help")) {
+					help = true;
+					int h = 1;
+					switch(h) {
+						case 1: if(help == true) {
+							System.out.println("This program is designed to take in Kirby Maze maps."); 
+							System.out.println("The program will find optimal paths for Kirby towards the target (a Cake).");
+							System.out.println("Switches will be used to indicate the specific approach to solve the problem.");
+							System.out.println("They will also indicate what output will be produced."); 
+	
+									
+							break;
+						}
+						
+						case 2: System.exit(0);
+					}
+							
+				}
+				
 				// CHECKING TO SEE IF PATH IS WANTED
-
 				if (s.equals("--Stack") || s.equals("--Queue") || s.equals("--Opt")) {
 					// DECLARING VARS FOR SWITCH TO DECIDE WHICH PATH ALGORITHM TO USE
 					
@@ -138,6 +177,7 @@ public class p1 {
 					boolean time = false; 
 					boolean coord = false;
 					boolean template = false;
+					 
 					
 					//CHECKING TO SEE WHICH OUTPUT IS NEEDED
 					for(String z : args) {
@@ -191,18 +231,20 @@ public class p1 {
 
 					case 5:
 						if (opt == true && time == true) {
-							optimalCake(scanner4, scanner5, booleanMap, kX, kY);
+							optimalCake(scanner4, scanner5, booleanMap, kX, kY, coord, template);
 							System.out.println("Total Runtime: " + ((System.currentTimeMillis() - run)) + " milliseconds");
 							break;
 						}
 					case 6:
 						if (opt == true && time == false) {
-							optimalCake(scanner4, scanner5, booleanMap, kX, kY);
+							optimalCake(scanner4, scanner5, booleanMap, kX, kY, coord, template);
 							break;
 						}
 
 					}
 				}
+				
+				System.out.println(kX + " " + kY);
 			}
 			
 
@@ -523,6 +565,7 @@ public class p1 {
 			pos -= 2;
 
 		}
+		
 		
 		//PRINTING OUT DELO ONLY CONTAINING MOVES
 		System.out.println(deLo);
@@ -861,9 +904,19 @@ public class p1 {
 
 	}
 	
-	 public static void optimalCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
-		Scanner scanCoordinate = scan;
-		Scanner scanTemplate = scan2; 
+	 public static void optimalCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y, boolean coordinate, boolean template) {
+		
+		 
+		 /*BECAUSE KIRBY MAPS ARE CHARACTERIZED BY SHORT AND ROUGH TURNS
+		  * AND BORDERS, A QUEUE BASED APPROACH WOULD WORK BEST
+		  * SINCE QUEUE ALGORITHM ALREADY PROVIDES OPTIMAL PATH 
+		  * CAN REUSE QUEUE
+		  */
+		 
+		 queueCake(scan, scan2, map, x, y, coordinate, template); 
+		 
+		 /*Scanner scanCoordinate = scan.reset();
+		Scanner scanTemplate = scan2.reset(); 
 		char[][] coordMap = coordinateBased2(scan);
 		char[][] tempMap = templateBased(scan2); // TEMPLATE MAP
 		int cX = -1; // STORING X CAKE POSITION
@@ -883,12 +936,12 @@ public class p1 {
 		
 		if(cX == 0 || cX == tempMap.length-1 || cY == 0 || cY == tempMap[0].length-1) {
 			System.out.println("Hi"); 
-			stackCake(scanCoordinate, scanTemplate, map, kX, kY, true, false); 
+			stackCake(scanCoordinate, scanTemplate, map, kX, kY, coordinate, template); 
 			System.out.println("Hello");
 		}
 		else {
-			queueCake(scanCoordinate, scanTemplate, map, kX, kY, true, false); 
-		}
+			queueCake(scanCoordinate, scanTemplate, map, kX, kY, coordinate, template); 
+		}*/
 		
 		
 	}
