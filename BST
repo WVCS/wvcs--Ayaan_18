@@ -278,7 +278,7 @@ public class p1 {
 		return coordMap;
 
 	}
-
+	
 	public static char[][] coordinateBased2(Scanner scan) {
 		int rows = scan.nextInt();
 		System.out.println(rows);
@@ -304,6 +304,28 @@ public class p1 {
 
 		return map;
  
+	}
+	
+	public static String[][] coordinateBasedConversion(String[][] map) {
+		int rows = map.length * map[0].length; 
+		int cols = 3; 
+		String[][] cMapConversion = new String[rows][cols];
+		int c = 0;
+		
+		while(c < rows) {
+			for (int i = 0; i < map.length; i++) {
+				for (int j = 0; j < map[0].length; j++) {
+					cMapConversion[c][0] = map[i][j];
+					cMapConversion[c][1] = i + "";
+					cMapConversion[c][2] = j + "";
+					
+					c++; 
+				}
+			}	
+		}
+		
+
+		return cMapConversion; 
 	}
 
 	public static void queueCake(Scanner scan, Scanner scan2, boolean[][] map, int x, int y) {
@@ -452,7 +474,7 @@ public class p1 {
 
 		System.out.println(cX + " " + cY);
 		
-		//CONVERTING TEMPLATE MAP TO STRING FOR EASY MANIPULATION
+		//CONVERTING TEMPLATE MAP AND COORDINATE MAP TO STRING FOR EASY MANIPULATION
 		String[][] tMapConvert = new String[tMap.length][tMap[0].length];
 
 		for (int i = 0; i < tMapConvert.length; i++) {
@@ -461,6 +483,7 @@ public class p1 {
 			}
 
 		}
+		
 
 		while (pos >= 2) {
 
@@ -492,10 +515,22 @@ public class p1 {
 		//PRINTING OUT DELO ONLY CONTAINING MOVES
 		System.out.println(deLo);
 		
-		//PRINTING COMPLETED QUEUE PATH
+		//PRINTING COMPLETED TEMPLATE QUEUE PATH
 		for (int i = 0; i < tMapConvert.length; i++) {
 			for (int j = 0; j < tMapConvert[0].length; j++) {
 				System.out.print(tMapConvert[i][j]);
+			}
+			System.out.println();
+		}
+		
+		//CREATING NEW COORDINATE MAP
+		
+		String[][] cMapConvert = coordinateBasedConversion(tMapConvert); 
+		
+		//PRINTING COMPLETED COORDINATE QUEUE PATH
+		for (int i = 0; i < cMapConvert.length; i++) {
+			for (int j = 0; j < cMapConvert[0].length; j++) {
+				System.out.print(cMapConvert[i][j]);
 			}
 			System.out.println();
 		}
@@ -666,6 +701,7 @@ public class p1 {
 			}
 
 		}
+		
 
 		
 		while (pos >= 2) {
@@ -706,7 +742,17 @@ public class p1 {
 			System.out.println();
 		}
 		
+		//CREATING NEW COORDINATE MAP
 		
+				String[][] cMapConvert = coordinateBasedConversion(tMapConvert); 
+				
+				//PRINTING COMPLETED COORDINATE QUEUE PATH
+				for (int i = 0; i < cMapConvert.length; i++) {
+					for (int j = 0; j < cMapConvert[0].length; j++) {
+						System.out.print(cMapConvert[i][j]);
+					}
+					System.out.println();
+				}
 
 	}
 	
